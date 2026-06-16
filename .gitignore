@@ -1,0 +1,6 @@
+# clasp / Apps Script local config
+apps-script/.clasp.json
+.clasprc.json
+
+# Node stuff, if added later
+node_modules/
