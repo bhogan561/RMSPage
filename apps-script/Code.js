@@ -33,7 +33,7 @@ function doPost(e) {
     if (!settingsSheet) {
       settingsSheet = ss.insertSheet(settingsName);
       // optional: set headers
-      settingsSheet.appendRow(['Notify','Subscribe']);
+      settingsSheet.appendRow(['Notify']);
     }
 
     const ts = new Date();
@@ -41,18 +41,10 @@ function doPost(e) {
     const email = data.email || '';
     const phone = data.phone || '';
     const message = data.message || data.msg || '';
-    const subscribe = data.subscribe || '';
     const raw = JSON.stringify(data);
 
     // Append a row
     sheet.appendRow([ts, name, email, phone, message, raw]);
-
-    /**if(subscribe){
-      let subList = settingsSheet.getRange("B2:B").getValues().flat().filter(Boolean);
-      subList.push(email);
-      settingsSheet.getRange("B2:B").clearContent();
-      settingsSheet.getRange(2, 2, subList.length).setValues([subList]);
-    }*/
 
     // Send notification email(s)
     const subject = 'New contact form submission';
@@ -62,7 +54,6 @@ function doPost(e) {
       'Name: ' + name + '\n' +
       'Email: ' + email + '\n' +
       'Phone: ' + phone + '\n' + 
-      //'Subscribe: ' + subscribe + '\n' +
       '\nMessage:\n' + message + '\n\n';
       //'Raw payload:\n' + raw;
 
