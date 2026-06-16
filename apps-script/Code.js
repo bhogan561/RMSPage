@@ -18,8 +18,6 @@ function doPost(e) {
     }
 
     // Prepare sheet write
-    //const SHEET_ID = '1Xyf48GWdz2R3NkPdVJhwzzCsDvlPH7s9ysPmol4cWzg';
-    //const ss = SpreadsheetApp.openById(SHEET_ID);
     const ss = SpreadsheetApp.getActiveSpreadsheet();
     const sheetName = 'Submission Log';
     const settingsName = 'Settings';
