@@ -2,5 +2,10 @@
 apps-script/.clasp.json
 .clasprc.json
 
+# VS Code
+.vscode/*
+!.vscode/tasks.json
+!.vscode/extensions.json
+
 # Node stuff, if added later
 node_modules/

@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "clasp: push Apps Script",
+      "type": "shell",
+      "command": "clasp push",
+      "options": {
+        "cwd": "${workspaceFolder}/apps-script"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
