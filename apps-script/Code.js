@@ -1,3 +1,5 @@
+//Local VS Code + clasp test
+
 function doPost(e) {
   // Helpful logging for debugging
   try {
