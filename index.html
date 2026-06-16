@@ -218,7 +218,7 @@
 
         .case-study-img {
             flex: 1;
-            background: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            background: url('images/broken_pipe.png') center/cover;
             min-height: 400px;
         }
 
@@ -310,6 +310,111 @@
             padding: 30px 0;
             font-size: 0.9rem;
         }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 59, 115, 0.7); /* Using primary blue with opacity */
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border-top: 5px solid var(--primary-green);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-blue);
+        }
+
+        .modal h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-text);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 91, 159, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        #formStatus {
+            margin-top: 15px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .status-success { color: var(--primary-green); }
+        .status-error { color: #e11d48; }
 
         /* Media Queries */
         @media (max-width: 768px) {
@@ -477,7 +582,7 @@
         <div class="container">
             <h2>Ready to Protect Your Property?</h2>
             <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">Get a custom sensor layout designed specifically for your building's vulnerabilities.</p>
-            <a href="#" class="btn btn-primary" style="font-size: 1.2rem; padding: 18px 40px;">Schedule Your Building Walkthrough</a>
+            <a href="#contact" class="btn btn-primary" style="font-size: 1.2rem; padding: 18px 40px;">Schedule Your Building Walkthrough</a>
             <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">Custom Sensor Layouts Available</p>
         </div>
     </section>
@@ -488,5 +593,128 @@
         </div>
     </footer>
 
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Get Started with RMS</h2>
+            <p style="margin-bottom: 20px; color: var(--dark-text); opacity: 0.8;">Fill out the form below and our team will reach out to schedule your walkthrough or provide a quote.</p>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="john@company.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label for="message">How can we help?</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your facility or monitoring needs..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%;">Submit Request</button>
+                <div id="formStatus"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal and Form Logic
+        const modal = document.getElementById('contactModal');
+        const closeBtn = document.querySelector('.close-btn');
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formStatus = document.getElementById('formStatus');
+
+        // Open modal when any link pointing to #contact is clicked
+        document.querySelectorAll('a[href="#contact"]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('active');
+            });
+        });
+
+        // Close modal functions
+        const closeModal = () => {
+            modal.classList.remove('active');
+            // Reset form status when closed
+            setTimeout(() => { 
+                formStatus.textContent = ''; 
+                formStatus.className = ''; 
+            }, 300);
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Handle Form Submission
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // UI updates during submission
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            formStatus.textContent = '';
+            formStatus.className = '';
+
+            // Gather form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Convert formData to URL-encoded format so Google Apps Script handles it via e.parameter
+            const formParams = new URLSearchParams(formData).toString();
+
+            // Google Apps Script Web App URL
+            const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzU4LUkTUfGyS2eCsfZ6EH89rYWFcqLTMbgHlrRr2cyXTIESWcrTrrjd-Dd8TMGHdTs/exec';
+
+            try {
+                // Send as URL-encoded data to bypass CORS and properly populate e.parameter in GAS
+                const response = await fetch(WEBAPP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formParams
+                });
+
+                if (response.ok) {
+                    showSuccessMessage();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                formStatus.textContent = 'Something went wrong. Please try again.';
+                formStatus.className = 'status-error';
+                submitBtn.textContent = 'Submit Request';
+                submitBtn.disabled = false;
+            }
+        });
+
+        function showSuccessMessage() {
+            formStatus.textContent = 'Success! We will be in touch shortly.';
+            formStatus.className = 'status-success';
+            contactForm.reset();
+            submitBtn.textContent = 'Submit Request';
+            submitBtn.disabled = false;
+            
+            // Auto-close modal after 3 seconds
+            setTimeout(closeModal, 3000);
+        }
+    </script>
 </body>
 </html>
