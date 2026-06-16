@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ready Monitoring Services | Smart Facility Monitoring</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #003b73; /* Trust-building deep blue */
+            --secondary-blue: #005b9f;
+            --primary-green: #67b246; /* Proactive growth green */
+            --light-green: #eef7eb;
+            --dark-text: #2c3e50;
+            --light-text: #f4f6f8;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            color: var(--dark-text);
+            line-height: 1.6;
+            background-color: var(--white);
+        }
+
+        h1, h2, h3 {
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #559639;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(103, 178, 70, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--primary-blue);
+        }
+
+        /* Header / Nav */
+        header {
+            background-color: var(--white);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary-green);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: var(--light-text);
+        }
+
+        .hero .sub-text {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-weight: 300;
+            opacity: 0.8;
+        }
+
+        /* The Problem Section */
+        .problem-bg {
+            background-color: var(--bg-light);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            border-top: 4px solid var(--primary-blue);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: var(--primary-blue);
+        }
+
+        /* Solution Section */
+        .solution-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .solution-text {
+            flex: 1;
+        }
+
+        .solution-features {
+            flex: 1;
+            list-style: none;
+        }
+
+        .solution-features li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .solution-features i {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+
+        /* Case Study Section */
+        .case-study {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 60px 0;
+        }
+
+        .case-study-img {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            min-height: 400px;
+        }
+
+        .case-study-content {
+            flex: 1;
+            padding: 50px;
+        }
+
+        .case-study-content h2 {
+            color: var(--primary-green);
+        }
+
+        .case-timeline {
+            margin-top: 30px;
+            border-left: 2px solid var(--primary-green);
+            padding-left: 20px;
+        }
+
+        .case-timeline div {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .case-timeline div::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-green);
+        }
+
+        /* Value / ROI Section */
+        .roi-banner {
+            background-color: var(--light-green);
+            border-left: 8px solid var(--primary-green);
+            padding: 40px;
+            border-radius: 0 8px 8px 0;
+            margin: 40px 0;
+        }
+
+        .roi-banner h3 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+        }
+
+        /* Differentiation Section */
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .diff-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .diff-item i {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Final CTA & Footer */
+        .final-cta {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        footer {
+            background-color: #05223d;
+            color: #8fa6bc;
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .solution-content, .case-study { flex-direction: column; }
+            .case-study-img { min-height: 250px; }
+            .case-study-content { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-shield-halved"></i>
+                READY MONITORING SERVICES
+            </div>
+            <a href="#contact" class="btn btn-primary" style="padding: 10px 20px; font-size: 1rem;">Get a Quote</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Know Sooner. Act Faster.<br>Prevent Costly Damage.</h1>
+            <p>Smart facility monitoring designed by restoration professionals. We monitor water, temperature, and humidity in real-time to stop small issues before they become major losses.</p>
+            <a href="#contact" class="btn btn-primary">Schedule a Building Walkthrough</a>
+            <span class="sub-text">Monitoring Live in Days — Not Months.</span>
+        </div>
+    </section>
+
+    <section class="section-padding problem-bg" id="problem">
+        <div class="container">
+            <h2 style="text-align: center;">Disasters Don't Wait for Business Hours.</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h3>Issues Escalate After Hours</h3>
+                    <p>A minor leak on a Friday night becomes a catastrophic loss by Monday morning without 24/7 oversight.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-droplet"></i>
+                    <h3>Water Damage Spreads Fast</h3>
+                    <p>Every minute counts. Water travels through walls and infrastructure, multiplying repair costs exponentially.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <h3>Reaction is Expensive</h3>
+                    <p>Traditional management relies on discovering damage <em>after</em> it happens. By then, the financial hit is already taken.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h2>Real-Time Visibility into Your Facility’s Health.</h2>
+                    <p>Our smart sensor network provides continuous monitoring of your most vulnerable areas. If an anomaly is detected, you are the first to know—shifting your strategy from reactive cleanup to proactive prevention.</p>
+                </div>
+                <ul class="solution-features">
+                    <li>
+                        <i class="fa-solid fa-microchip"></i>
+                        <div>
+                            <strong>Strategic Placement</strong>
+                            <p>Commercial-grade sensors monitoring leaks, temperature spikes, and humidity levels in high-risk zones.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-bell"></i>
+                        <div>
+                            <strong>Instant Alerts</strong>
+                            <p>Custom alert logic sends notifications directly to your team the moment thresholds are breached.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-chart-line"></i>
+                        <div>
+                            <strong>Enterprise Dashboard</strong>
+                            <p>A centralized, easy-to-read health report of your entire building or property portfolio.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="case-study">
+            <div class="case-study-img"></div>
+            <div class="case-study-content">
+                <h2>Saved by the Sensor</h2>
+                <p><strong>A Real-World Intervention</strong></p>
+                <div class="case-timeline">
+                    <div>
+                        <strong>The Threat (2:00 AM, Sunday):</strong> A pressurized pipe fitting failed on the 4th floor of a commercial office building.
+                    </div>
+                    <div>
+                        <strong>The RMS Response (2:00 AM):</strong> Within seconds, the RMS water sensor detected pooling water. An automated alert was instantly dispatched to the on-call facilities manager.
+                    </div>
+                    <div>
+                        <strong>The Action (2:25 AM):</strong> The main water valve was manually shut off by responding staff.
+                    </div>
+                    <div>
+                        <strong>The Impact:</strong> What would have been a multi-floor, $100,000+ restoration event was reduced to a simple mop-up and a $300 pipe repair.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding problem-bg">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 50px;">Built for the People Who Keep Assets Safe.</h2>
+            
+            <div class="grid-3" style="margin-bottom: 50px;">
+                <div>
+                    <h3><i class="fa-solid fa-building-user" style="color: var(--primary-green); margin-right: 10px;"></i> Facilities Managers</h3>
+                    <p>Gain total operational control. Eliminate blind spots in your mechanical rooms, basements, and critical infrastructure zones.</p>
+                </div>
+                <div>
+                    <h3><i class="fa-solid fa-briefcase" style="color: var(--primary-green); margin-right: 10px;"></i> PM C-Suite</h3>
+                    <p>Mitigate portfolio-wide risk. Protect your NOI by preventing massive unbudgeted capital expenditures and insurance claims.</p>
+                </div>
+                <div>
+                    <h3><i class="fa-solid fa-city" style="color: var(--primary-green); margin-right: 10px;"></i> Building Owners</h3>
+                    <p>Protect your investment. Ensure tenant satisfaction and business continuity by stopping disruptions before they start.</p>
+                </div>
+            </div>
+
+            <div class="roi-banner">
+                <h3>One avoided water loss can pay for this entire system.</h3>
+                <p style="margin-top: 15px; font-size: 1.1rem;">Traditional insurance helps you rebuild after a disaster. RMS helps you avoid the disaster altogether. By investing in proactive monitoring, you reduce emergency service calls, avoid costly deductibles, and prevent operational downtime.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <h2 style="text-align: center;">More Than Monitoring. Backed by Restoration Pros.</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto;">We aren't just a tech company selling gadgets. Ready Monitoring Services was founded by restoration industry veterans.</p>
+            
+            <div class="diff-grid">
+                <div class="diff-item">
+                    <i class="fa-solid fa-database"></i>
+                    <h3>Built from Real Loss Data</h3>
+                    <p>We know exactly where buildings fail because we've spent years cleaning up the aftermath.</p>
+                </div>
+                <div class="diff-item">
+                    <i class="fa-solid fa-pen-ruler"></i>
+                    <h3>Expert System Design</h3>
+                    <p>We don't just hand you sensors; we design custom layouts based on real-world risk assessment.</p>
+                </div>
+                <div class="diff-item">
+                    <i class="fa-solid fa-handshake"></i>
+                    <h3>End-to-End Partners</h3>
+                    <p>From prevention to recovery, we know what a true, immediate emergency response looks like.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta" id="contact">
+        <div class="container">
+            <h2>Ready to Protect Your Property?</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">Get a custom sensor layout designed specifically for your building's vulnerabilities.</p>
+            <a href="#" class="btn btn-primary" style="font-size: 1.2rem; padding: 18px 40px;">Schedule Your Building Walkthrough</a>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">Custom Sensor Layouts Available</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Ready Monitoring Services. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
