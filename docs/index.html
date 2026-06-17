@@ -44,6 +44,17 @@
             text-decoration: none;
         }
 
+        a:focus-visible,
+        button:focus-visible,
+        .btn:focus-visible,
+        .close-btn:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid #0f172a;
+            outline-offset: 3px;
+            box-shadow: 0 0 0 6px var(--white);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -366,11 +377,6 @@
             transition: color 0.3s ease;
         }
 
-        .close-btn:focus-visible {
-            outline: 2px solid var(--primary-blue);
-            outline-offset: 3px;
-        }
-
         .close-btn:hover {
             color: var(--primary-blue);
         }
@@ -407,9 +413,10 @@
 
         .form-group input:focus,
         .form-group textarea:focus {
-            outline: none;
+            outline: 3px solid #0f172a;
+            outline-offset: 3px;
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 91, 159, 0.1);
+            box-shadow: 0 0 0 6px var(--white);
         }
 
         .form-group textarea {
