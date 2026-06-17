@@ -354,7 +354,10 @@
             position: absolute;
             top: 15px;
             right: 20px;
+            border: none;
+            background: transparent;
             font-size: 1.8rem;
+            line-height: 1;
             cursor: pointer;
             color: #94a3b8;
             transition: color 0.3s ease;
@@ -594,11 +597,11 @@
     </footer>
 
     <!-- Contact Modal -->
-    <div id="contactModal" class="modal">
+    <div id="contactModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle" aria-describedby="contactModalDescription" aria-hidden="true">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2>Get Started with RMS</h2>
-            <p style="margin-bottom: 20px; color: var(--dark-text); opacity: 0.8;">Fill out the form below and our team will reach out to schedule your walkthrough or provide a quote.</p>
+            <button type="button" class="close-btn" aria-label="Close contact form">&times;</button>
+            <h2 id="contactModalTitle">Get Started with RMS</h2>
+            <p id="contactModalDescription" style="margin-bottom: 20px; color: var(--dark-text); opacity: 0.8;">Fill out the form below and our team will reach out to schedule your walkthrough or provide a quote.</p>
             <form id="contactForm">
                 <div class="form-group">
                     <label for="name">Full Name</label>
@@ -625,22 +628,57 @@
     <script>
         // Modal and Form Logic
         const modal = document.getElementById('contactModal');
+        const modalContent = modal.querySelector('.modal-content');
         const closeBtn = document.querySelector('.close-btn');
         const contactForm = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const formStatus = document.getElementById('formStatus');
+        const focusableSelector = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+        let modalTrigger = null;
+
+        const getBackgroundElements = () => Array.from(document.body.children).filter(element => element !== modal && element.tagName !== 'SCRIPT');
+
+        const setBackgroundInert = (isInert) => {
+            getBackgroundElements().forEach(element => {
+                element.inert = isInert;
+            });
+        };
+
+        const getFocusableModalElements = () => Array.from(modalContent.querySelectorAll(focusableSelector))
+            .filter(element => element.offsetParent !== null);
+
+        const openModal = (trigger) => {
+            modalTrigger = trigger;
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            setBackgroundInert(true);
+
+            const firstFocusableElement = getFocusableModalElements()[0] || closeBtn;
+            firstFocusableElement.focus();
+        };
 
         // Open modal when any link pointing to #contact is clicked
         document.querySelectorAll('a[href="#contact"]').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                modal.classList.add('active');
+                openModal(e.currentTarget);
             });
         });
 
         // Close modal functions
         const closeModal = () => {
+            if (!modal.classList.contains('active')) {
+                return;
+            }
+
             modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            setBackgroundInert(false);
+
+            if (modalTrigger && typeof modalTrigger.focus === 'function') {
+                modalTrigger.focus();
+            }
+
             // Reset form status when closed
             setTimeout(() => { 
                 formStatus.textContent = ''; 
@@ -653,6 +691,39 @@
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) {
+                return;
+            }
+
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                closeModal();
+                return;
+            }
+
+            if (e.key !== 'Tab') {
+                return;
+            }
+
+            const focusableElements = getFocusableModalElements();
+            const firstFocusableElement = focusableElements[0];
+            const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+            if (!firstFocusableElement || !lastFocusableElement) {
+                e.preventDefault();
+                return;
+            }
+
+            if (e.shiftKey && document.activeElement === firstFocusableElement) {
+                e.preventDefault();
+                lastFocusableElement.focus();
+            } else if (!e.shiftKey && document.activeElement === lastFocusableElement) {
+                e.preventDefault();
+                firstFocusableElement.focus();
             }
         });
 
