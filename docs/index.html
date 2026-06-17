@@ -10,12 +10,22 @@
         :root {
             --primary-blue: #003b73; /* Trust-building deep blue */
             --secondary-blue: #005b9f;
-            --primary-green: #67b246; /* Proactive growth green */
-            --light-green: #eef7eb;
+            --primary-green: #2f7d32; /* Proactive growth green with AA text contrast */
+            --primary-green-hover: #27672a;
+            --accent-green-on-dark: #a8e879;
+            --light-green: #edf8ed;
             --dark-text: #2c3e50;
+            --muted-text: #4b5563;
             --light-text: #f4f6f8;
             --bg-light: #f8fafc;
             --white: #ffffff;
+            --error: #b42318;
+            --focus-ring: #0f172a;
+            --header-offset: 96px;
+        }
+
+        html {
+            scroll-padding-top: var(--header-offset);
         }
 
         * {
@@ -29,6 +39,10 @@
             color: var(--dark-text);
             line-height: 1.6;
             background-color: var(--white);
+        }
+
+        body.modal-open {
+            overflow: hidden;
         }
 
         h1, h2, h3 {
@@ -50,9 +64,27 @@
         .close-btn:focus-visible,
         input:focus-visible,
         textarea:focus-visible {
-            outline: 3px solid #0f172a;
+            outline: 3px solid var(--focus-ring);
             outline-offset: 3px;
             box-shadow: 0 0 0 6px var(--white);
+        }
+
+        .skip-link {
+            position: absolute;
+            left: 20px;
+            top: 12px;
+            z-index: 1001;
+            padding: 12px 18px;
+            border-radius: 5px;
+            background: var(--white);
+            color: var(--primary-blue);
+            font-weight: 700;
+            transform: translateY(-140%);
+            transition: transform 0.2s ease;
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
         }
 
         .container {
@@ -63,6 +95,22 @@
 
         .section-padding {
             padding: 80px 0;
+        }
+
+        .section-heading {
+            text-align: center;
+        }
+
+        .section-heading + .grid-3,
+        .audience-grid,
+        .diff-grid {
+            margin-top: 40px;
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         /* Buttons */
@@ -76,6 +124,7 @@
             cursor: pointer;
             border: none;
             font-size: 1.1rem;
+            min-height: 44px;
         }
 
         .btn-primary {
@@ -84,9 +133,17 @@
         }
 
         .btn-primary:hover {
-            background-color: #559639;
+            background-color: var(--primary-green-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(103, 178, 70, 0.3);
+            box-shadow: 0 4px 12px rgba(47, 125, 50, 0.3);
+        }
+
+        .btn:disabled {
+            background-color: #4b5563;
+            color: var(--white);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .btn-secondary {
@@ -108,6 +165,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .logo {
@@ -117,10 +176,38 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            line-height: 1.2;
         }
 
         .logo i {
             color: var(--primary-green);
+        }
+
+        .primary-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .primary-nav a:not(.btn) {
+            color: var(--primary-blue);
+            font-weight: 600;
+            padding: 10px 2px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .primary-nav a:not(.btn):hover {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+        }
+
+        .header-cta {
+            padding: 10px 20px;
+            font-size: 1rem;
         }
 
         /* Hero Section */
@@ -148,7 +235,7 @@
             margin-top: 15px;
             font-size: 0.9rem;
             font-weight: 300;
-            opacity: 0.8;
+            color: var(--light-text);
         }
 
         /* The Problem Section */
@@ -158,7 +245,7 @@
 
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
             gap: 30px;
             margin-top: 40px;
         }
@@ -229,8 +316,15 @@
 
         .case-study-img {
             flex: 1;
-            background: url('images/broken_pipe.png') center/cover;
             min-height: 400px;
+        }
+
+        .case-study-img img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            object-fit: cover;
         }
 
         .case-study-content {
@@ -239,21 +333,22 @@
         }
 
         .case-study-content h2 {
-            color: var(--primary-green);
+            color: var(--accent-green-on-dark);
         }
 
         .case-timeline {
             margin-top: 30px;
             border-left: 2px solid var(--primary-green);
             padding-left: 20px;
+            list-style: none;
         }
 
-        .case-timeline div {
+        .case-timeline li {
             position: relative;
             margin-bottom: 20px;
         }
 
-        .case-timeline div::before {
+        .case-timeline li::before {
             content: '';
             position: absolute;
             left: -27px;
@@ -278,10 +373,24 @@
             font-size: 1.8rem;
         }
 
+        .roi-copy {
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        .audience-grid {
+            margin-bottom: 50px;
+        }
+
+        .inline-icon {
+            color: var(--primary-green);
+            margin-right: 10px;
+        }
+
         /* Differentiation Section */
         .diff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
             gap: 30px;
             margin-top: 40px;
         }
@@ -314,6 +423,23 @@
             padding: 80px 0;
         }
 
+        .final-cta-copy {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--light-text);
+        }
+
+        .final-cta-button {
+            font-size: 1.2rem;
+            padding: 18px 40px;
+        }
+
+        .final-cta-note {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+
         footer {
             background-color: #05223d;
             color: #8fa6bc;
@@ -335,6 +461,8 @@
             backdrop-filter: blur(4px);
             align-items: center;
             justify-content: center;
+            padding: 16px;
+            overflow-y: auto;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -355,6 +483,8 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
             transform: translateY(-20px);
             transition: transform 0.3s ease;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
         }
 
         .modal.active .modal-content {
@@ -366,6 +496,8 @@
             position: absolute;
             top: 15px;
             right: 20px;
+            width: 44px;
+            height: 44px;
             padding: 0;
             border: none;
             background: transparent;
@@ -385,6 +517,21 @@
             color: var(--primary-blue);
             margin-bottom: 20px;
             font-size: 1.8rem;
+        }
+
+        .modal-description {
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+
+        .form-instructions,
+        .form-hint {
+            color: var(--muted-text);
+            font-size: 0.95rem;
+        }
+
+        .form-instructions {
+            margin-bottom: 20px;
         }
 
         .form-group {
@@ -409,19 +556,33 @@
             font-family: inherit;
             font-size: 1rem;
             transition: border-color 0.3s ease;
+            min-height: 44px;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
-            outline: 3px solid #0f172a;
+            outline: 3px solid var(--focus-ring);
             outline-offset: 3px;
             border-color: var(--primary-blue);
             box-shadow: 0 0 0 6px var(--white);
         }
 
+        .form-group input[aria-invalid="true"],
+        .form-group textarea[aria-invalid="true"] {
+            border-color: var(--error);
+        }
+
         .form-group textarea {
             resize: vertical;
-            height: 100px;
+            min-height: 120px;
+        }
+
+        .field-error {
+            color: var(--error);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 8px;
+            margin-bottom: 0;
         }
 
         #formStatus {
@@ -431,86 +592,148 @@
             font-size: 0.95rem;
         }
 
+        #submitBtn {
+            width: 100%;
+        }
+
         .status-success { color: var(--primary-green); }
-        .status-error { color: #e11d48; }
+        .status-error { color: var(--error); }
 
         /* Media Queries */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .solution-content, .case-study { flex-direction: column; }
-            .case-study-img { min-height: 250px; }
+            .case-study-img,
+            .case-study-img img {
+                min-height: 250px;
+            }
             .case-study-content { padding: 30px; }
+        }
+
+        @media (max-width: 520px) {
+            :root {
+                --header-offset: 140px;
+            }
+
+            header {
+                position: static;
+            }
+
+            .hero {
+                padding: 70px 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .primary-nav,
+            .header-cta {
+                width: 100%;
+            }
+
+            .header-cta {
+                text-align: center;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .btn-primary:hover,
+            .card:hover,
+            .modal-content {
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
 
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <header>
         <div class="container nav-container">
             <div class="logo">
-                <i class="fa-solid fa-shield-halved"></i>
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
                 READY MONITORING SERVICES
             </div>
-            <a href="#contact" class="btn btn-primary" style="padding: 10px 20px; font-size: 1rem;">Get a Quote</a>
+            <nav class="primary-nav" aria-label="Primary">
+                <a href="#solution">Solution</a>
+                <a href="#case-study">Case Study</a>
+                <a href="#contact" class="btn btn-primary header-cta">Get a Quote</a>
+            </nav>
         </div>
     </header>
 
+    <main id="main-content" tabindex="-1">
     <section class="hero">
         <div class="container">
             <h1>Know Sooner. Act Faster.<br>Prevent Costly Damage.</h1>
             <p>Smart facility monitoring designed by restoration professionals. We monitor water, temperature, and humidity in real-time to stop small issues before they become major losses.</p>
             <a href="#contact" class="btn btn-primary">Schedule a Building Walkthrough</a>
-            <span class="sub-text">Monitoring Live in Days — Not Months.</span>
+            <span class="sub-text">Monitoring live in days, not months.</span>
         </div>
     </section>
 
-    <section class="section-padding problem-bg" id="problem">
+    <section class="section-padding problem-bg" id="problem" aria-labelledby="problem-title">
         <div class="container">
-            <h2 style="text-align: center;">Disasters Don't Wait for Business Hours.</h2>
+            <h2 class="section-heading" id="problem-title">Disasters Don't Wait for Business Hours.</h2>
             <div class="grid-3">
-                <div class="card">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
+                <article class="card">
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                     <h3>Issues Escalate After Hours</h3>
                     <p>A minor leak on a Friday night becomes a catastrophic loss by Monday morning without 24/7 oversight.</p>
-                </div>
-                <div class="card">
-                    <i class="fa-solid fa-droplet"></i>
+                </article>
+                <article class="card">
+                    <i class="fa-solid fa-droplet" aria-hidden="true"></i>
                     <h3>Water Damage Spreads Fast</h3>
                     <p>Every minute counts. Water travels through walls and infrastructure, multiplying repair costs exponentially.</p>
-                </div>
-                <div class="card">
-                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </article>
+                <article class="card">
+                    <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
                     <h3>Reaction is Expensive</h3>
                     <p>Traditional management relies on discovering damage <em>after</em> it happens. By then, the financial hit is already taken.</p>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <section class="section-padding">
+    <section class="section-padding" id="solution" aria-labelledby="solution-title">
         <div class="container">
             <div class="solution-content">
                 <div class="solution-text">
-                    <h2>Real-Time Visibility into Your Facility’s Health.</h2>
-                    <p>Our smart sensor network provides continuous monitoring of your most vulnerable areas. If an anomaly is detected, you are the first to know—shifting your strategy from reactive cleanup to proactive prevention.</p>
+                    <h2 id="solution-title">Real-Time Visibility into Your Facility's Health.</h2>
+                    <p>Our smart sensor network provides continuous monitoring of your most vulnerable areas. If an anomaly is detected, you are the first to know, shifting your strategy from reactive cleanup to proactive prevention.</p>
                 </div>
                 <ul class="solution-features">
                     <li>
-                        <i class="fa-solid fa-microchip"></i>
+                        <i class="fa-solid fa-microchip" aria-hidden="true"></i>
                         <div>
                             <strong>Strategic Placement</strong>
                             <p>Commercial-grade sensors monitoring leaks, temperature spikes, and humidity levels in high-risk zones.</p>
                         </div>
                     </li>
                     <li>
-                        <i class="fa-solid fa-bell"></i>
+                        <i class="fa-solid fa-bell" aria-hidden="true"></i>
                         <div>
                             <strong>Instant Alerts</strong>
                             <p>Custom alert logic sends notifications directly to your team the moment thresholds are breached.</p>
                         </div>
                     </li>
                     <li>
-                        <i class="fa-solid fa-chart-line"></i>
+                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
                         <div>
                             <strong>Enterprise Dashboard</strong>
                             <p>A centralized, easy-to-read health report of your entire building or property portfolio.</p>
@@ -521,89 +744,92 @@
         </div>
     </section>
 
-    <section class="container">
+    <section class="container" id="case-study" aria-labelledby="case-study-title">
         <div class="case-study">
-            <div class="case-study-img"></div>
+            <div class="case-study-img">
+                <img src="images/broken_pipe.png" alt="Water damage from a broken pipe in a commercial facility">
+            </div>
             <div class="case-study-content">
-                <h2>Saved by the Sensor</h2>
+                <h2 id="case-study-title">Saved by the Sensor</h2>
                 <p><strong>A Real-World Intervention</strong></p>
-                <div class="case-timeline">
-                    <div>
+                <ol class="case-timeline">
+                    <li>
                         <strong>The Threat (2:00 AM, Sunday):</strong> A pressurized pipe fitting failed on the 4th floor of a commercial office building.
-                    </div>
-                    <div>
+                    </li>
+                    <li>
                         <strong>The RMS Response (2:00 AM):</strong> Within seconds, the RMS water sensor detected pooling water. An automated alert was instantly dispatched to the on-call facilities manager.
-                    </div>
-                    <div>
+                    </li>
+                    <li>
                         <strong>The Action (2:25 AM):</strong> The main water valve was manually shut off by responding staff.
-                    </div>
-                    <div>
+                    </li>
+                    <li>
                         <strong>The Impact:</strong> What would have been a multi-floor, $100,000+ restoration event was reduced to a simple mop-up and a $300 pipe repair.
-                    </div>
-                </div>
+                    </li>
+                </ol>
             </div>
         </div>
     </section>
 
-    <section class="section-padding problem-bg">
+    <section class="section-padding problem-bg" id="audiences" aria-labelledby="audiences-title">
         <div class="container">
-            <h2 style="text-align: center; margin-bottom: 50px;">Built for the People Who Keep Assets Safe.</h2>
+            <h2 class="section-heading" id="audiences-title">Built for the People Who Keep Assets Safe.</h2>
             
-            <div class="grid-3" style="margin-bottom: 50px;">
-                <div>
-                    <h3><i class="fa-solid fa-building-user" style="color: var(--primary-green); margin-right: 10px;"></i> Facilities Managers</h3>
+            <div class="grid-3 audience-grid">
+                <article>
+                    <h3><i class="fa-solid fa-building-user inline-icon" aria-hidden="true"></i> Facilities Managers</h3>
                     <p>Gain total operational control. Eliminate blind spots in your mechanical rooms, basements, and critical infrastructure zones.</p>
-                </div>
-                <div>
-                    <h3><i class="fa-solid fa-briefcase" style="color: var(--primary-green); margin-right: 10px;"></i> PM C-Suite</h3>
+                </article>
+                <article>
+                    <h3><i class="fa-solid fa-briefcase inline-icon" aria-hidden="true"></i> PM C-Suite</h3>
                     <p>Mitigate portfolio-wide risk. Protect your NOI by preventing massive unbudgeted capital expenditures and insurance claims.</p>
-                </div>
-                <div>
-                    <h3><i class="fa-solid fa-city" style="color: var(--primary-green); margin-right: 10px;"></i> Building Owners</h3>
+                </article>
+                <article>
+                    <h3><i class="fa-solid fa-city inline-icon" aria-hidden="true"></i> Building Owners</h3>
                     <p>Protect your investment. Ensure tenant satisfaction and business continuity by stopping disruptions before they start.</p>
-                </div>
+                </article>
             </div>
 
-            <div class="roi-banner">
-                <h3>One avoided water loss can pay for this entire system.</h3>
-                <p style="margin-top: 15px; font-size: 1.1rem;">Traditional insurance helps you rebuild after a disaster. RMS helps you avoid the disaster altogether. By investing in proactive monitoring, you reduce emergency service calls, avoid costly deductibles, and prevent operational downtime.</p>
+            <div class="roi-banner" aria-labelledby="roi-title">
+                <h3 id="roi-title">One avoided water loss can pay for this entire system.</h3>
+                <p class="roi-copy">Traditional insurance helps you rebuild after a disaster. RMS helps you avoid the disaster altogether. By investing in proactive monitoring, you reduce emergency service calls, avoid costly deductibles, and prevent operational downtime.</p>
             </div>
         </div>
     </section>
 
-    <section class="section-padding">
+    <section class="section-padding" id="why-rms" aria-labelledby="why-rms-title">
         <div class="container">
-            <h2 style="text-align: center;">More Than Monitoring. Backed by Restoration Pros.</h2>
-            <p style="text-align: center; max-width: 700px; margin: 0 auto;">We aren't just a tech company selling gadgets. Ready Monitoring Services was founded by restoration industry veterans.</p>
+            <h2 class="section-heading" id="why-rms-title">More Than Monitoring. Backed by Restoration Pros.</h2>
+            <p class="section-intro">We aren't just a tech company selling gadgets. Ready Monitoring Services was founded by restoration industry veterans.</p>
             
             <div class="diff-grid">
-                <div class="diff-item">
-                    <i class="fa-solid fa-database"></i>
+                <article class="diff-item">
+                    <i class="fa-solid fa-database" aria-hidden="true"></i>
                     <h3>Built from Real Loss Data</h3>
                     <p>We know exactly where buildings fail because we've spent years cleaning up the aftermath.</p>
-                </div>
-                <div class="diff-item">
-                    <i class="fa-solid fa-pen-ruler"></i>
+                </article>
+                <article class="diff-item">
+                    <i class="fa-solid fa-pen-ruler" aria-hidden="true"></i>
                     <h3>Expert System Design</h3>
                     <p>We don't just hand you sensors; we design custom layouts based on real-world risk assessment.</p>
-                </div>
-                <div class="diff-item">
-                    <i class="fa-solid fa-handshake"></i>
+                </article>
+                <article class="diff-item">
+                    <i class="fa-solid fa-handshake" aria-hidden="true"></i>
                     <h3>End-to-End Partners</h3>
                     <p>From prevention to recovery, we know what a true, immediate emergency response looks like.</p>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <section class="final-cta" id="contact">
+    <section class="final-cta" id="contact" aria-labelledby="contact-title">
         <div class="container">
-            <h2>Ready to Protect Your Property?</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9;">Get a custom sensor layout designed specifically for your building's vulnerabilities.</p>
-            <a href="#contact" class="btn btn-primary" style="font-size: 1.2rem; padding: 18px 40px;">Schedule Your Building Walkthrough</a>
-            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.7;">Custom Sensor Layouts Available</p>
+            <h2 id="contact-title">Ready to Protect Your Property?</h2>
+            <p class="final-cta-copy">Get a custom sensor layout designed specifically for your building's vulnerabilities.</p>
+            <a href="#contact" class="btn btn-primary final-cta-button">Schedule Your Building Walkthrough</a>
+            <p class="final-cta-note">Custom Sensor Layouts Available</p>
         </div>
     </section>
+    </main>
 
     <footer>
         <div class="container">
@@ -616,26 +842,32 @@
         <div class="modal-content">
             <button type="button" class="close-btn" aria-label="Close contact form">&times;</button>
             <h2 id="contactModalTitle">Get Started with RMS</h2>
-            <p id="contactModalDescription" style="margin-bottom: 20px; color: var(--dark-text); opacity: 0.8;">Fill out the form below and our team will reach out to schedule your walkthrough or provide a quote.</p>
-            <form id="contactForm">
+            <p id="contactModalDescription" class="modal-description">Fill out the form below and our team will reach out to schedule your walkthrough or provide a quote.</p>
+            <form id="contactForm" novalidate aria-describedby="formInstructions">
+                <p id="formInstructions" class="form-instructions">All fields are required.</p>
                 <div class="form-group">
                     <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="John Doe">
+                    <input type="text" id="name" name="name" required autocomplete="name" aria-describedby="nameError" aria-required="true" placeholder="John Doe">
+                    <p class="field-error" id="nameError"></p>
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="john@company.com">
+                    <input type="email" id="email" name="email" required autocomplete="email" aria-describedby="emailError" aria-required="true" placeholder="john@company.com">
+                    <p class="field-error" id="emailError"></p>
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
+                    <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" aria-describedby="phoneHelp phoneError" aria-required="true" placeholder="(555) 123-4567">
+                    <p class="form-hint" id="phoneHelp">Use any phone format that is easiest for you.</p>
+                    <p class="field-error" id="phoneError"></p>
                 </div>
                 <div class="form-group">
                     <label for="message">How can we help?</label>
-                    <textarea id="message" name="message" required placeholder="Tell us about your facility or monitoring needs..."></textarea>
+                    <textarea id="message" name="message" required autocomplete="off" aria-describedby="messageError" aria-required="true" placeholder="Tell us about your facility or monitoring needs..."></textarea>
+                    <p class="field-error" id="messageError"></p>
                 </div>
-                <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%;">Submit Request</button>
-                <div id="formStatus"></div>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Submit Request</button>
+                <div id="formStatus" role="status" aria-live="polite" aria-atomic="true"></div>
             </form>
         </div>
     </div>

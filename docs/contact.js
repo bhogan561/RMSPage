@@ -23,6 +23,7 @@
 
     const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzU4LUkTUfGyS2eCsfZ6EH89rYWFcqLTMbgHlrRr2cyXTIESWcrTrrjd-Dd8TMGHdTs/exec';
     const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     function resolveDocument(options) {
         return options.document || (typeof document !== 'undefined' ? document : null);
@@ -74,8 +75,34 @@
         const contactForm = documentRef.getElementById('contactForm');
         const submitBtn = documentRef.getElementById('submitBtn');
         const formStatus = documentRef.getElementById('formStatus');
+        const fields = {
+            name: {
+                element: documentRef.getElementById('name'),
+                error: documentRef.getElementById('nameError'),
+                requiredMessage: 'Enter your full name.'
+            },
+            email: {
+                element: documentRef.getElementById('email'),
+                error: documentRef.getElementById('emailError'),
+                requiredMessage: 'Enter your email address.',
+                invalidMessage: 'Enter an email address in the format name@example.com.'
+            },
+            phone: {
+                element: documentRef.getElementById('phone'),
+                error: documentRef.getElementById('phoneError'),
+                requiredMessage: 'Enter your phone number.'
+            },
+            message: {
+                element: documentRef.getElementById('message'),
+                error: documentRef.getElementById('messageError'),
+                requiredMessage: 'Tell us how we can help.'
+            }
+        };
 
-        if (!modal || !modalContent || !closeBtn || !contactForm || !submitBtn || !formStatus) {
+        const requiredFieldElements = Object.values(fields)
+            .flatMap(field => [field.element, field.error]);
+
+        if (!modal || !modalContent || !closeBtn || !contactForm || !submitBtn || !formStatus || requiredFieldElements.some(element => !element)) {
             return null;
         }
 
@@ -84,6 +111,7 @@
         const now = options.now || (() => new Date());
         const consoleRef = options.console || (windowRef && windowRef.console) || console;
         const webappUrl = options.webappUrl || WEBAPP_URL;
+        const backgroundElementStates = new Map();
         let modalTrigger = null;
 
         const getBackgroundElements = () => Array.from(documentRef.body.children)
@@ -92,17 +120,95 @@
         const setBackgroundInert = (isInert) => {
             getBackgroundElements().forEach(element => {
                 element.inert = isInert;
+
+                if (isInert) {
+                    if (!backgroundElementStates.has(element)) {
+                        backgroundElementStates.set(element, element.getAttribute('aria-hidden'));
+                    }
+
+                    element.setAttribute('aria-hidden', 'true');
+                    return;
+                }
+
+                const previousAriaHidden = backgroundElementStates.get(element);
+
+                if (previousAriaHidden === undefined || previousAriaHidden === null) {
+                    element.removeAttribute('aria-hidden');
+                } else {
+                    element.setAttribute('aria-hidden', previousAriaHidden);
+                }
+
+                backgroundElementStates.delete(element);
             });
         };
 
         const getFocusableModalElements = () => Array.from(modalContent.querySelectorAll(FOCUSABLE_SELECTOR))
             .filter(element => element.offsetParent !== null);
 
+        const setStatus = (message, className = '') => {
+            formStatus.textContent = message;
+            formStatus.className = className;
+        };
+
+        const setSubmitting = (isSubmitting) => {
+            contactForm.setAttribute('aria-busy', String(isSubmitting));
+            submitBtn.textContent = isSubmitting ? 'Sending...' : 'Submit Request';
+            submitBtn.disabled = isSubmitting;
+        };
+
+        const clearFieldError = (field) => {
+            field.error.textContent = '';
+            field.element.removeAttribute('aria-invalid');
+        };
+
+        const setFieldError = (field, message) => {
+            field.error.textContent = message;
+            field.element.setAttribute('aria-invalid', 'true');
+        };
+
+        const clearValidationErrors = () => {
+            Object.values(fields).forEach(clearFieldError);
+        };
+
+        const clearFormFeedback = () => {
+            setStatus('');
+            clearValidationErrors();
+        };
+
+        const getFieldValue = (fieldName) => fields[fieldName].element.value.trim();
+
+        const validateForm = () => {
+            clearValidationErrors();
+
+            const invalidFields = [];
+
+            Object.values(fields).forEach(field => {
+                if (!field.element.value.trim()) {
+                    setFieldError(field, field.requiredMessage);
+                    invalidFields.push(field);
+                }
+            });
+
+            if (fields.email.element.value.trim() && !EMAIL_PATTERN.test(fields.email.element.value.trim())) {
+                setFieldError(fields.email, fields.email.invalidMessage);
+                invalidFields.push(fields.email);
+            }
+
+            if (!invalidFields.length) {
+                return true;
+            }
+
+            setStatus('Please correct the fields marked below.', 'status-error');
+            invalidFields[0].element.focus();
+            return false;
+        };
+
         const openModal = (trigger) => {
             modalTrigger = trigger;
             modal.classList.add('active');
             modal.setAttribute('aria-hidden', 'false');
             setBackgroundInert(true);
+            documentRef.body.classList.add('modal-open');
 
             const firstFocusableElement = getFocusableModalElements()[0] || closeBtn;
             firstFocusableElement.focus();
@@ -116,33 +222,30 @@
             modal.classList.remove('active');
             modal.setAttribute('aria-hidden', 'true');
             setBackgroundInert(false);
+            documentRef.body.classList.remove('modal-open');
 
             if (modalTrigger && typeof modalTrigger.focus === 'function') {
                 modalTrigger.focus();
             }
 
             setTimeoutFn(() => {
-                formStatus.textContent = '';
-                formStatus.className = '';
+                clearFormFeedback();
             }, 300);
         };
 
         const buildFormData = () => ({
-            name: documentRef.getElementById('name').value,
-            email: documentRef.getElementById('email').value,
-            phone: documentRef.getElementById('phone').value,
-            message: documentRef.getElementById('message').value,
+            name: getFieldValue('name'),
+            email: getFieldValue('email'),
+            phone: getFieldValue('phone'),
+            message: getFieldValue('message'),
             timestamp: now().toISOString()
         });
 
         const showSuccessMessage = () => {
-            formStatus.textContent = 'Success! We will be in touch shortly.';
-            formStatus.className = 'status-success';
+            clearValidationErrors();
             contactForm.reset();
-            submitBtn.textContent = 'Submit Request';
-            submitBtn.disabled = false;
-
-            setTimeoutFn(closeModal, 3000);
+            setSubmitting(false);
+            setStatus('Success! We will be in touch shortly.', 'status-success');
         };
 
         documentRef.querySelectorAll('a[href="#contact"]').forEach(btn => {
@@ -154,11 +257,13 @@
 
         closeBtn.addEventListener('click', closeModal);
 
-        windowRef.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
+        if (windowRef && typeof windowRef.addEventListener === 'function') {
+            windowRef.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        }
 
         documentRef.addEventListener('keydown', (event) => {
             if (!modal.classList.contains('active')) {
@@ -196,10 +301,13 @@
         contactForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-            formStatus.textContent = '';
-            formStatus.className = '';
+            setStatus('');
+
+            if (!validateForm()) {
+                return;
+            }
+
+            setSubmitting(true);
 
             const formParams = new URLSearchParams(buildFormData()).toString();
 
@@ -223,10 +331,8 @@
                 }
             } catch (error) {
                 consoleRef.error('Error submitting form:', error);
-                formStatus.textContent = 'Something went wrong. Please try again.';
-                formStatus.className = 'status-error';
-                submitBtn.textContent = 'Submit Request';
-                submitBtn.disabled = false;
+                setStatus('Something went wrong. Your information is still in the form; please try again.', 'status-error');
+                setSubmitting(false);
             }
         });
 
@@ -244,7 +350,8 @@
             getBackgroundElements,
             getFocusableModalElements,
             openModal,
-            showSuccessMessage
+            showSuccessMessage,
+            validateForm
         };
     }
 
