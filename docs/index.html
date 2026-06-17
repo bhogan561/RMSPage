@@ -351,16 +351,24 @@
         }
 
         .close-btn {
+            appearance: none;
             position: absolute;
             top: 15px;
             right: 20px;
+            padding: 0;
             border: none;
             background: transparent;
+            font: inherit;
             font-size: 1.8rem;
             line-height: 1;
             cursor: pointer;
             color: #94a3b8;
             transition: color 0.3s ease;
+        }
+
+        .close-btn:focus-visible {
+            outline: 2px solid var(--primary-blue);
+            outline-offset: 3px;
         }
 
         .close-btn:hover {
