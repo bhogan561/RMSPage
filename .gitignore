@@ -7,5 +7,8 @@ apps-script/.clasp.json
 !.vscode/tasks.json
 !.vscode/extensions.json
 
+# Unit Tests
+test/*
+
 # Node stuff, if added later
 node_modules/
