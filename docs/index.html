@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #003b73; /* Trust-building deep blue */
-            --secondary-blue: #005b9f;
+            --primary-blue: #0D3664; /* Trust-building deep blue */
+            --secondary-blue: #145A96;
             --primary-green: #2e8540; /* Primary brand green sampled from "Monitoring Services" logo text */
             --primary-green-hover: #28743a;
             --accent-green-on-dark: #98e36a;
@@ -163,28 +163,30 @@
 
         .nav-container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 18px;
+            text-align: center;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-            line-height: 1.2;
+            width: 100%;
+            line-height: 0;
         }
 
-        .logo i {
-            color: var(--primary-green);
+        .logo img {
+            display: block;
+            width: min(100%, 360px);
+            height: auto;
         }
 
         .primary-nav {
             display: flex;
+            justify-content: center;
             align-items: center;
             gap: 16px;
             flex-wrap: wrap;
@@ -260,6 +262,12 @@
             transition: transform 0.3s ease;
         }
 
+        #problem .card {
+            padding: 56px 36px;
+            border-radius: 40px;
+            border-top: 1px solid rgba(0, 86, 179, 0.12);
+        }
+
         .card:hover {
             transform: translateY(-5px);
         }
@@ -268,6 +276,18 @@
             font-size: 2.5rem;
             color: var(--primary-green);
             margin-bottom: 20px;
+        }
+
+        #problem .problem-icon-warning {
+            color: var(--error);
+        }
+
+        #problem .problem-icon-water {
+            color: var(--secondary-blue);
+        }
+
+        #problem .problem-icon-cost {
+            color: var(--primary-green);
         }
 
         .card h3 {
@@ -371,6 +391,7 @@
         .roi-banner h3 {
             color: var(--primary-green);
             font-size: 1.8rem;
+            text-align: center;
         }
 
         .roi-copy {
@@ -457,7 +478,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 59, 115, 0.7); /* Using primary blue with opacity */
+            background-color: rgba(13, 54, 100, 0.7); /* Using primary blue with opacity */
             backdrop-filter: blur(4px);
             align-items: center;
             justify-content: center;
@@ -627,9 +648,17 @@
                 font-size: 2rem;
             }
 
-            .primary-nav,
-            .header-cta {
+            .nav-container {
+                gap: 14px;
+            }
+
+            .logo img {
+                width: min(100%, 300px);
+            }
+
+            .primary-nav {
                 width: 100%;
+                gap: 10px 14px;
             }
 
             .header-cta {
@@ -666,8 +695,7 @@
     <header>
         <div class="container nav-container">
             <div class="logo">
-                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-                READY MONITORING SERVICES
+                <img src="images/rms-logo.png" alt="Ready Monitoring Services">
             </div>
             <nav class="primary-nav" aria-label="Primary">
                 <a href="#solution">Solution</a>
@@ -692,19 +720,19 @@
             <h2 class="section-heading" id="problem-title">Disasters Don't Wait for Business Hours.</h2>
             <div class="grid-3">
                 <article class="card">
-                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <i class="fa-solid fa-triangle-exclamation problem-icon-warning" aria-hidden="true"></i>
                     <h3>Issues Escalate After Hours</h3>
                     <p>A minor leak on a Friday night becomes a catastrophic loss by Monday morning without 24/7 oversight.</p>
                 </article>
                 <article class="card">
-                    <i class="fa-solid fa-droplet" aria-hidden="true"></i>
+                    <i class="fa-solid fa-droplet problem-icon-water" aria-hidden="true"></i>
                     <h3>Water Damage Spreads Fast</h3>
                     <p>Every minute counts. Water travels through walls and infrastructure, multiplying repair costs exponentially.</p>
                 </article>
                 <article class="card">
-                    <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
-                    <h3>Reaction is Expensive</h3>
-                    <p>Traditional management relies on discovering damage <em>after</em> it happens. By then, the financial hit is already taken.</p>
+                    <i class="fa-solid fa-file-invoice-dollar problem-icon-cost" aria-hidden="true"></i>
+                    <h3>Prevention Costs Less Than Response</h3>
+                    <p>Proactive monitoring reduces emergency response, deductibles, and downtime before small issues become losses.</p>
                 </article>
             </div>
         </div>
@@ -715,7 +743,7 @@
             <div class="solution-content">
                 <div class="solution-text">
                     <h2 id="solution-title">Real-Time Visibility into Your Facility's Health.</h2>
-                    <p>Our smart sensor network provides continuous monitoring of your most vulnerable areas. If an anomaly is detected, you are the first to know, shifting your strategy from reactive cleanup to proactive prevention.</p>
+                    <p>Our smart sensor network provides continuous monitoring of your most vulnerable areas, with a live dashboard that lets clients monitor building conditions between site visits. If an anomaly is detected, you are the first to know, shifting your strategy from reactive cleanup to proactive prevention.</p>
                 </div>
                 <ul class="solution-features">
                     <li>
@@ -729,14 +757,14 @@
                         <i class="fa-solid fa-bell" aria-hidden="true"></i>
                         <div>
                             <strong>Instant Alerts</strong>
-                            <p>Custom alert logic sends notifications directly to your team the moment thresholds are breached.</p>
+                            <p>Custom alert logic sends notifications by email, text/SMS, or to designated on-call contacts the moment thresholds are breached.</p>
                         </div>
                     </li>
                     <li>
                         <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
                         <div>
-                            <strong>Enterprise Dashboard</strong>
-                            <p>A centralized, easy-to-read health report of your entire building or property portfolio.</p>
+                            <strong>Live Monitoring Dashboard</strong>
+                            <p>A centralized view of live readings, trend visibility, and alert history or status across your building or property portfolio.</p>
                         </div>
                     </li>
                 </ul>
@@ -751,19 +779,19 @@
             </div>
             <div class="case-study-content">
                 <h2 id="case-study-title">Saved by the Sensor</h2>
-                <p><strong>A Real-World Intervention</strong></p>
+                <p><strong>Early Detection Prevents a Major Category 3 Sewage Loss</strong></p>
                 <ol class="case-timeline">
                     <li>
-                        <strong>The Threat (2:00 AM, Sunday):</strong> A pressurized pipe fitting failed on the 4th floor of a commercial office building.
+                        <strong>The Threat:</strong> After-hours cleaners started filling a mop bucket at a utility sink, then stepped away as a backed-up drain line pushed raw sewage into the sink until it overflowed.
                     </li>
                     <li>
-                        <strong>The RMS Response (2:00 AM):</strong> Within seconds, the RMS water sensor detected pooling water. An automated alert was instantly dispatched to the on-call facilities manager.
+                        <strong>The RMS Response:</strong> Shortly after Category 3 water reached the floor, a strategically placed RMS water sensor detected the intrusion and sent instant alerts to the RMS Response Team and property management.
                     </li>
                     <li>
-                        <strong>The Action (2:25 AM):</strong> The main water valve was manually shut off by responding staff.
+                        <strong>The Action:</strong> An RMS responder arrived within minutes, confirmed the sewage backup, shut off the water source, stopped the spread, and began targeted cleanup, sanitizing, and drying.
                     </li>
                     <li>
-                        <strong>The Impact:</strong> What would have been a multi-floor, $100,000+ restoration event was reduced to a simple mop-up and a $300 pipe repair.
+                        <strong>The Impact:</strong> The response contained the sewage/water-loss risk before contaminated water reached adjacent tenant spaces, avoiding demolition, material removal, tenant displacement, and a broader restoration scope.
                     </li>
                 </ol>
             </div>
@@ -780,8 +808,8 @@
                     <p>Gain total operational control. Eliminate blind spots in your mechanical rooms, basements, and critical infrastructure zones.</p>
                 </article>
                 <article>
-                    <h3><i class="fa-solid fa-briefcase inline-icon" aria-hidden="true"></i> PM C-Suite</h3>
-                    <p>Mitigate portfolio-wide risk. Protect your NOI by preventing massive unbudgeted capital expenditures and insurance claims.</p>
+                    <h3><i class="fa-solid fa-screwdriver-wrench inline-icon" aria-hidden="true"></i> Maintenance Teams</h3>
+                    <p>Identify leaks faster, reduce after-hours surprises, and follow clear dashboard and alert workflows from first notification to resolution.</p>
                 </article>
                 <article>
                     <h3><i class="fa-solid fa-city inline-icon" aria-hidden="true"></i> Building Owners</h3>
