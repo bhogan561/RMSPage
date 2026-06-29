@@ -21,7 +21,7 @@
             --white: #ffffff;
             --error: #b42318;
             --focus-ring: #0f172a;
-            --header-offset: 96px;
+            --header-offset: 152px;
         }
 
         html {
@@ -262,7 +262,7 @@
         }
 
         #problem .grid-3 {
-            grid-template-columns: repeat(3, minmax(0, 295px));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 295px));
             justify-content: center;
             justify-items: center;
             gap: 20px;
@@ -694,7 +694,7 @@
 
         @media (max-width: 520px) {
             :root {
-                --header-offset: 140px;
+                --header-offset: 0px;
             }
 
             header {
@@ -770,7 +770,7 @@
     <header>
         <div class="container nav-container">
             <div class="logo">
-                <img src="images/logo.png" alt="Ready Monitoring Services shield logo" class="logo-mark">
+                <img src="images/logo.png" alt="" class="logo-mark">
                 <img src="images/text.png" alt="READY Monitoring Services" class="logo-wordmark">
             </div>
             <nav class="primary-nav" aria-label="Primary">
