@@ -163,28 +163,30 @@
 
         .nav-container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 18px;
+            text-align: center;
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-blue);
             display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-            line-height: 1.2;
+            width: 100%;
+            line-height: 0;
         }
 
-        .logo i {
-            color: var(--primary-green);
+        .logo img {
+            display: block;
+            width: min(100%, 360px);
+            height: auto;
         }
 
         .primary-nav {
             display: flex;
+            justify-content: center;
             align-items: center;
             gap: 16px;
             flex-wrap: wrap;
@@ -634,9 +636,17 @@
                 font-size: 2rem;
             }
 
-            .primary-nav,
-            .header-cta {
+            .nav-container {
+                gap: 14px;
+            }
+
+            .logo img {
+                width: min(100%, 300px);
+            }
+
+            .primary-nav {
                 width: 100%;
+                gap: 10px 14px;
             }
 
             .header-cta {
@@ -673,8 +683,7 @@
     <header>
         <div class="container nav-container">
             <div class="logo">
-                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-                READY MONITORING SERVICES
+                <img src="images/rms-logo.png" alt="Ready Monitoring Services">
             </div>
             <nav class="primary-nav" aria-label="Primary">
                 <a href="#solution">Solution</a>
