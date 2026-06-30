@@ -21,7 +21,7 @@
 })(typeof window !== 'undefined' ? window : globalThis, function () {
     'use strict';
 
-    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzU4LUkTUfGyS2eCsfZ6EH89rYWFcqLTMbgHlrRr2cyXTIESWcrTrrjd-Dd8TMGHdTs/exec';
+    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwiXsg7sUH0F_G2E2FaDI-tMSHxJuVRRDj7hcL1RvnzL3tfN2R8DT7Rikj76ski5DmAMA/exec';
     const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
     const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
